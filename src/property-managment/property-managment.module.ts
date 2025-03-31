@@ -25,5 +25,6 @@ import { UserModule } from 'src/users/users.module';
     { provide: 'locationRepositoryInterface', useClass: LocationRepository },
     { provide: 'areaRepositoryInterface', useClass: AreaRepository },
   ],
+  exports: [PropertyManagmentService],
 })
 export class PropertyManagmentModule {}

@@ -1,0 +1,76 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import {
+  FollowUpStatusEnum,
+  FollowUpTypeEnum,
+} from 'src/db/entities/follow-up.entity';
+
+export class CreateFollowUpReqDto {
+  @ApiProperty({
+    name: 'clientId',
+    type: Number,
+    required: true,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  clientId: number;
+
+  @ApiProperty({
+    name: 'agentId',
+    type: Number,
+    required: true,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  agentId: number;
+
+  @ApiProperty({
+    name: 'type',
+    required: true,
+    enum: FollowUpTypeEnum,
+    example: FollowUpTypeEnum.CALL,
+  })
+  @IsEnum(FollowUpTypeEnum)
+  @IsNotEmpty()
+  type: FollowUpTypeEnum;
+
+  @ApiProperty({
+    name: 'scheduledDate',
+    type: Date,
+    required: true,
+  })
+  @IsDateString()
+  @IsNotEmpty()
+  scheduledDate: Date;
+
+  @ApiProperty({
+    name: 'status',
+    required: true,
+    enum: FollowUpStatusEnum,
+    example: FollowUpStatusEnum.COMPLETED,
+  })
+  @IsEnum(FollowUpStatusEnum)
+  @IsNotEmpty()
+  status: FollowUpStatusEnum;
+
+  @ApiProperty({
+    name: 'outcome',
+    type: String,
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  outcome?: string;
+}

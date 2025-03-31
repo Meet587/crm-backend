@@ -1,4 +1,5 @@
 import { AreaEntity } from 'src/db/entities/area.entity';
+import { ClientsEntity } from 'src/db/entities/client.entity';
 import { LocationEntity } from 'src/db/entities/location.entity';
 import { UserEntity } from 'src/db/entities/user.entity';
 import {
@@ -9,6 +10,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 
 export enum PropertyForEnum {
@@ -90,6 +92,9 @@ export class PropertyEntity {
 
   @Column({ type: 'text', nullable: true, default: null })
   description: string;
+
+  @ManyToMany(() => ClientsEntity, (client) => client.interestedProperties)
+  interestedClients: ClientsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

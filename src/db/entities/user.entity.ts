@@ -1,7 +1,10 @@
+import { Exclude } from 'class-transformer';
+import { ClientsEntity } from 'src/db/entities/client.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,8 +34,12 @@ export class UserEntity {
   @Column({ type: 'enum', enum: UserRole })
   role: UserRole;
 
+  @Exclude()
   @Column('text', { nullable: true })
   password: string;
+
+  @OneToMany(() => ClientsEntity, (client) => client.assignedAgent)
+  clients: ClientsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

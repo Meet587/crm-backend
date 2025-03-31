@@ -13,7 +13,7 @@ import { AddPropertyReqDto } from 'src/property-managment/dtos/add-property-req.
 import { AssignProeprtyTo } from 'src/property-managment/dtos/assign-property-req.dto';
 import { GetPropertyResDto } from 'src/property-managment/dtos/get-property-res.dto';
 import { UserService } from 'src/users/users.service';
-import { FindManyOptions } from 'typeorm';
+import { FindManyOptions, In } from 'typeorm';
 import { PropertyEntity } from 'src/db/entities/property.entity';
 import { UpdatePropertyReqDto } from './dtos/update-property-req.dto';
 
@@ -125,6 +125,21 @@ export class PropertyManagmentService {
       };
       return await this.propertyRepository.save(updated);
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async findByPropertyIds(ids: number[]) {
+    try {
+      return await this.propertyRepository.findAll({
+        where: { id: In(ids) },
+        relations: {
+          location: true,
+          area: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
       throw error;
     }
   }

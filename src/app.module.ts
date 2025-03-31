@@ -8,6 +8,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { PropertyManagmentModule } from './property-managment/property-managment.module';
+import { ClientManagmentModule } from './client-managment/client-managment.module';
+import { FollowUpsModule } from './follow-ups/follow-ups.module';
+import { SiteVisitsModule } from './site-visits/site-visits.module';
 
 @Module({
   imports: [
@@ -21,6 +24,9 @@ import { PropertyManagmentModule } from './property-managment/property-managment
     AuthModule,
     UserModule,
     PropertyManagmentModule,
+    ClientManagmentModule,
+    FollowUpsModule,
+    SiteVisitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
