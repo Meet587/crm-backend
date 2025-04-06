@@ -1,8 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseAbstractRepository } from './base/base.abstrac.repository';
+import { BaseAbstractRepository } from './base/base.abstract.repository';
 import { Repository } from 'typeorm';
-import { LocationEntity } from 'src/db/entities/location.entity';
-import { locationRepositoryInterface } from 'src/db/interfaces/location.interface';
+import { LocationEntity } from '../entities/location.entity';
+import { locationRepositoryInterface } from '../interfaces/location.interface';
 
 export class LocationRepository
   extends BaseAbstractRepository<LocationEntity>

@@ -1,8 +1,8 @@
-import { BaseAbstractRepository } from 'src/db/repositories/base/base.abstrac.repository';
 import { ClientRepositoryInterface } from './../interfaces/client.interface';
-import { ClientsEntity } from 'src/db/entities/client.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BaseAbstractRepository } from './base/base.abstract.repository';
+import { ClientsEntity } from '../entities/client.entity';
 
 export class ClientRepository
   extends BaseAbstractRepository<ClientsEntity>

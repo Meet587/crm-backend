@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common/decorators/modules';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -7,10 +7,12 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { PropertyManagmentModule } from './property-managment/property-managment.module';
-import { ClientManagmentModule } from './client-managment/client-managment.module';
 import { FollowUpsModule } from './follow-ups/follow-ups.module';
 import { SiteVisitsModule } from './site-visits/site-visits.module';
+import { APP_INTERCEPTOR } from '@nestjs/core/constants';
+import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { ClientManagementModule } from './client-management/client-management.module';
+import { PropertyManagementModule } from './property-management/property-management.module';
 
 @Module({
   imports: [
@@ -23,12 +25,18 @@ import { SiteVisitsModule } from './site-visits/site-visits.module';
     }),
     AuthModule,
     UserModule,
-    PropertyManagmentModule,
-    ClientManagmentModule,
+    PropertyManagementModule,
+    ClientManagementModule,
     FollowUpsModule,
     SiteVisitsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+  ],
 })
 export class AppModule {}

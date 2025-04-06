@@ -4,24 +4,24 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
-import { AssignClientToAgentReqDto } from 'src/client-managment/dtos/assign-client-to-agent-req.dto';
-import { CreateClientRequestDto } from 'src/client-managment/dtos/create-client-req.dto';
-import { UpdateLeadStatusReqDto } from 'src/client-managment/dtos/update-lead-status-req.dto';
+import { AssignClientToAgentReqDto } from 'src/client-management/dtos/assign-client-to-agent-req.dto';
+import { CreateClientRequestDto } from 'src/client-management/dtos/create-client-req.dto';
+import { UpdateLeadStatusReqDto } from 'src/client-management/dtos/update-lead-status-req.dto';
 import { UserEntity } from 'src/db/entities/user.entity';
 import { ClientRepository } from 'src/db/repositories/client.repository';
 import { UserService } from 'src/users/users.service';
-import { PropertyManagmentService } from './../property-managment/property-managment.service';
+import { PropertyManagementService } from './../property-management/property-management.service';
+import { UpdateClientRequestDto } from 'src/client-management/dtos/update-client-details-req.dto';
+import { ClientsEntity } from 'src/db/entities/client.entity';
 
 @Injectable()
-export class ClientManagmentService {
+export class ClientManagementService {
   constructor(
     // @Inject(REQUEST) request: Request,
     @Inject('clientRepositoryInterface')
     private readonly clientRepository: ClientRepository,
     private readonly userService: UserService,
-    private readonly propertyManagmentService: PropertyManagmentService,
+    private readonly propertyManagementService: PropertyManagementService,
   ) {}
 
   async getClientList() {
@@ -44,8 +44,8 @@ export class ClientManagmentService {
         },
       });
 
-      if (!exist) {
-        throw new ConflictException('this phone number alredy exist.');
+      if (exist) {
+        throw new ConflictException('this phone number already exist.');
       }
 
       let user: UserEntity;
@@ -53,8 +53,79 @@ export class ClientManagmentService {
       if (createClientRequestDto.agentId) {
         user = await this.userService.findById(createClientRequestDto.agentId);
       }
+      if (createClientRequestDto.agentId === 0) {
+        createClientRequestDto.agentId = 1;
+      }
 
       return await this.clientRepository.save(createClientRequestDto);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  async clientDetails(id: number) {
+    try {
+      const client = await this.clientRepository.findByCondition({
+        where: { id },
+        relations: {
+          assignedAgent: true,
+          followUps: true,
+          interestedProperties: true,
+          siteVisits: { property: true },
+        },
+        select: {
+          assignedAgent: {
+            id: true,
+            email: true,
+            fname: true,
+            lname: true,
+            phoneNumber: true,
+          },
+          siteVisits: {
+            id: true,
+            scheduledDate: true,
+            status: true,
+            agentNotes: true,
+            property: {
+              address: true,
+            },
+          },
+        },
+        // order: {
+        //   siteVisits: {
+        //     scheduledDate: 'desc',
+        //   },
+        // },
+      });
+      if (!client) {
+        throw new NotFoundException('client details not found with this id.');
+      }
+      return client;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  async updateClient(
+    clientId: number,
+    updateClientRequestDto: UpdateClientRequestDto,
+  ) {
+    try {
+      const exist = await this.clientRepository.findByCondition({
+        where: {
+          id: clientId,
+        },
+      });
+
+      const updatedData: ClientsEntity = {
+        ...exist,
+        ...updateClientRequestDto,
+        id: exist.id,
+      };
+
+      return await this.clientRepository.save(updatedData);
     } catch (error) {
       console.log(error);
       throw error;
@@ -124,7 +195,7 @@ export class ClientManagmentService {
     }
   }
 
-  async addPropertyIntrest(clientId: number, propertyIds: number[]) {
+  async addPropertyInterest(clientId: number, propertyIds: number[]) {
     try {
       const client = await this.findClientById(clientId);
       const ids: number[] = [
@@ -134,7 +205,7 @@ export class ClientManagmentService {
         ]),
       ];
       const properties =
-        await this.propertyManagmentService.findByPropertyIds(ids);
+        await this.propertyManagementService.findByPropertyIds(ids);
       client.interestedProperties = [...properties];
       return await this.clientRepository.save(client);
     } catch (error) {

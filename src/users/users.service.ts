@@ -25,7 +25,7 @@ export class UserService {
         createUserDto.email,
       );
       if (isExist) {
-        throw new ConflictException('user alredy exist with this email.');
+        throw new ConflictException('user already exist with this email.');
       }
       const hashPassword = await bcrypt.hash(createUserDto.password, 12);
       const newUser = await this.userRepository.save({

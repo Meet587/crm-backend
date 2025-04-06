@@ -1,7 +1,7 @@
 import { UserEntity } from '../entities/user.entity';
-import { BaseInterfacerepository } from '../repositories/base/base.interface.repository';
+import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface UserRepositoryInterface
-  extends BaseInterfacerepository<UserEntity> {
+  extends BaseInterfaceRepository<UserEntity> {
   findByEmail(email: string): Promise<UserEntity>;
 }

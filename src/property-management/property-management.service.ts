@@ -9,16 +9,15 @@ import { Request } from 'express';
 import { JwtPayload } from 'src/auth/strategy/jwt-payload.interface';
 import { UserRole } from 'src/db/entities/user.entity';
 import { PropertyRepository } from 'src/db/repositories/property.repository';
-import { AddPropertyReqDto } from 'src/property-managment/dtos/add-property-req.dto';
-import { AssignProeprtyTo } from 'src/property-managment/dtos/assign-property-req.dto';
-import { GetPropertyResDto } from 'src/property-managment/dtos/get-property-res.dto';
+import { AddPropertyReqDto } from 'src/property-management/dtos/add-property-req.dto';
+import { AssignPropertyTo } from 'src/property-management/dtos/assign-property-req.dto';
 import { UserService } from 'src/users/users.service';
 import { FindManyOptions, In } from 'typeorm';
 import { PropertyEntity } from 'src/db/entities/property.entity';
 import { UpdatePropertyReqDto } from './dtos/update-property-req.dto';
 
 @Injectable()
-export class PropertyManagmentService {
+export class PropertyManagementService {
   constructor(
     @Inject(REQUEST) private request: Request,
     @Inject('propertyRepositoryInterface')
@@ -98,11 +97,11 @@ export class PropertyManagmentService {
     }
   }
 
-  async assignTo(assignProeprtyTo: AssignProeprtyTo) {
+  async assignTo(assignPropertyTo: AssignPropertyTo) {
     try {
-      const user = await this.userService.findById(assignProeprtyTo.agentId);
+      const user = await this.userService.findById(assignPropertyTo.agentId);
 
-      const property = await this.findById(assignProeprtyTo.propertyId);
+      const property = await this.findById(assignPropertyTo.propertyId);
 
       property.assignTo = user.id;
       await this.propertyRepository.save(property);

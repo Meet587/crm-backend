@@ -13,6 +13,7 @@ import {
   InterestTypeEnum,
   LeadSourceEnum,
   LeadStatusEnum,
+  PriorityLevelEnum,
 } from 'src/db/entities/client.entity';
 
 export class CreateClientRequestDto {
@@ -49,7 +50,7 @@ export class CreateClientRequestDto {
   @ApiProperty({
     name: 'phoneNumber',
     example: '9090909090',
-    type: Number,
+    type: String,
     required: true,
   })
   @IsString()
@@ -95,4 +96,55 @@ export class CreateClientRequestDto {
   @IsNumber()
   @IsOptional()
   agentId?: number;
+
+  @ApiProperty({
+    name: 'budgetMin',
+    example: 1000000,
+    required: false,
+  })
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  budgetMin?: number;
+
+  @ApiProperty({
+    name: 'budgetMax',
+    example: 10000000,
+    required: false,
+  })
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  budgetMax?: number;
+
+  @ApiProperty({
+    name: 'bedroomsRequired',
+    example: 3,
+    required: false,
+  })
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  bedroomsRequired?: number;
+
+  @ApiProperty({
+    name: 'bathroomsRequired',
+    example: 3,
+    required: false,
+  })
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  bathroomsRequired?: number;
+
+  @ApiProperty({
+    name: 'priorityLevel',
+    example: PriorityLevelEnum.MEDIUM,
+    required: true,
+    enum: PriorityLevelEnum,
+    default: PriorityLevelEnum.MEDIUM,
+  })
+  @IsEnum(PriorityLevelEnum)
+  @IsNotEmpty()
+  priorityLevel: PriorityLevelEnum;
 }

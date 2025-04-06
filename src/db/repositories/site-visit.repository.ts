@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { SiteVisitEntity } from 'src/db/entities/site-visit.entity';
 import { SiteVisitRepositoryInterface } from 'src/db/interfaces/site-visit.interface';
-import { BaseAbstractRepository } from 'src/db/repositories/base/base.abstrac.repository';
+import { BaseAbstractRepository } from 'src/db/repositories/base/base.abstract.repository';
 import { SiteVisitFilterReqDto } from 'src/site-visits/dtos/site-visit-filter-req.dto';
 import { FindOneOptions, Repository } from 'typeorm';
 
@@ -16,9 +16,7 @@ export class SiteVisitRepository
     super(siteVisitRepository);
   }
 
-  async getAllSiteVisitssByFileter(
-    siteVisitFilterReqDto: SiteVisitFilterReqDto,
-  ) {
+  async getAllSiteVisitsByFilter(siteVisitFilterReqDto: SiteVisitFilterReqDto) {
     try {
       const whereClause: FindOneOptions<SiteVisitEntity> = {};
       if (siteVisitFilterReqDto.clientId) {

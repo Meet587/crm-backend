@@ -110,7 +110,7 @@ export class ClientsEntity {
     default: PriorityLevelEnum.MEDIUM,
     nullable: false,
   })
-  priorityLevel: string;
+  priorityLevel: PriorityLevelEnum;
 
   @Column({ type: 'timestamp', nullable: true })
   lastContactDate: Date;

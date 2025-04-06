@@ -6,8 +6,8 @@ import {
 import { LocationEntity } from 'src/db/entities/location.entity';
 import { AreaRepository } from 'src/db/repositories/area.repository';
 import { LocationRepository } from 'src/db/repositories/location.repository';
-import { CreateAreaReqDto } from 'src/property-managment/dtos/create-area-req.dto';
-import { CreateLocationReqDto } from 'src/property-managment/dtos/create-location-req.dto';
+import { CreateAreaReqDto } from 'src/property-management/dtos/create-area-req.dto';
+import { CreateLocationReqDto } from 'src/property-management/dtos/create-location-req.dto';
 
 export class LocationService {
   constructor(

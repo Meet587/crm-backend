@@ -1,8 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseAbstractRepository } from './base/base.abstrac.repository';
+import { BaseAbstractRepository } from './base/base.abstract.repository';
 import { Repository } from 'typeorm';
-import { PropertyRepositoryInterface } from 'src/db/interfaces/property.interface';
-import { PropertyEntity } from 'src/db/entities/property.entity';
+import { PropertyEntity } from '../entities/property.entity';
+import { PropertyRepositoryInterface } from '../interfaces/property.interface';
 
 export class PropertyRepository
   extends BaseAbstractRepository<PropertyEntity>

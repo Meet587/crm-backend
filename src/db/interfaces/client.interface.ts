@@ -1,5 +1,5 @@
-import { ClientsEntity } from 'src/db/entities/client.entity';
-import { BaseInterfacerepository } from 'src/db/repositories/base/base.interface.repository';
+import { ClientsEntity } from '../entities/client.entity';
+import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface ClientRepositoryInterface
-  extends BaseInterfacerepository<ClientsEntity> {}
+  extends BaseInterfaceRepository<ClientsEntity> {}

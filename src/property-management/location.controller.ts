@@ -15,9 +15,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetPropertyResDto } from './dtos/get-property-res.dto';
-import { LocationService } from 'src/property-managment/location.service';
-import { CreateLocationReqDto } from 'src/property-managment/dtos/create-location-req.dto';
-import { CreateAreaReqDto } from 'src/property-managment/dtos/create-area-req.dto';
+import { LocationService } from 'src/property-management/location.service';
+import { CreateLocationReqDto } from 'src/property-management/dtos/create-location-req.dto';
+import { CreateAreaReqDto } from 'src/property-management/dtos/create-area-req.dto';
 import { JwtAuthGuard } from 'src/auth/strategy/jwt-auth.guard';
 
 @Controller('location')

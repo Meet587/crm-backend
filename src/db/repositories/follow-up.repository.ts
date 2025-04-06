@@ -1,9 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FollowUpEntity } from 'src/db/entities/follow-up.entity';
-import { FollowUpRepositoryInterface } from 'src/db/interfaces/follow-up.interface';
-import { BaseAbstractRepository } from 'src/db/repositories/base/base.abstrac.repository';
-import { FollowUpFilterReqDto } from 'src/follow-ups/dtos/follow-up-filter-req.dto';
 import { FindOneOptions, Repository } from 'typeorm';
+import { BaseAbstractRepository } from './base/base.abstract.repository';
+import { FollowUpEntity } from '../entities/follow-up.entity';
+import { FollowUpRepositoryInterface } from '../interfaces/follow-up.interface';
+import { FollowUpFilterReqDto } from '../../follow-ups/dtos/follow-up-filter-req.dto';
 
 export class FollowUpRepository
   extends BaseAbstractRepository<FollowUpEntity>
@@ -15,7 +15,7 @@ export class FollowUpRepository
   ) {
     super(followUpRepository);
   }
-  async getAllFollowUpsByFileter(followUpFilterReqDto: FollowUpFilterReqDto) {
+  async getAllFollowUpsByFilter(followUpFilterReqDto: FollowUpFilterReqDto) {
     try {
       const whereClause: FindOneOptions<FollowUpEntity> = {};
       if (followUpFilterReqDto.clientId) {

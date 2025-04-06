@@ -1,5 +1,5 @@
-import { BaseInterfacerepository } from '../repositories/base/base.interface.repository';
-import { AreaEntity } from 'src/db/entities/area.entity';
+import { AreaEntity } from '../entities/area.entity';
+import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface AreaRepositoryInterface
-  extends BaseInterfacerepository<AreaEntity> {}
+  extends BaseInterfaceRepository<AreaEntity> {}

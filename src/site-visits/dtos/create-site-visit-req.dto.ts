@@ -33,16 +33,16 @@ export class CreateSiteVisitReqDto {
   @Type(() => Number)
   propertyId: number;
 
-  @ApiProperty({
-    name: 'agentId',
-    type: Number,
-    required: true,
-    example: 1,
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  @Type(() => Number)
-  agentId: number;
+  // @ApiProperty({
+  //   name: 'agentId',
+  //   type: Number,
+  //   required: true,
+  //   example: 1,
+  // })
+  // @IsNumber()
+  // @IsNotEmpty()
+  // @Type(() => Number)
+  // agentId: number;
 
   @ApiProperty({
     name: 'scheduledDate',
@@ -63,14 +63,14 @@ export class CreateSiteVisitReqDto {
   @IsNotEmpty()
   status: SiteVisitStatusEnum;
 
-  @ApiProperty({
-    name: 'clientFeedback',
-    type: String,
-    required: false,
-  })
-  @IsString()
-  @IsOptional()
-  clientFeedback?: string;
+  // @ApiProperty({
+  //   name: 'clientFeedback',
+  //   type: String,
+  //   required: false,
+  // })
+  // @IsString()
+  // @IsOptional()
+  // clientFeedback?: string;
 
   @ApiProperty({
     name: 'agentNotes',

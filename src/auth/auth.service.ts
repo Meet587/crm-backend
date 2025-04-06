@@ -1,18 +1,17 @@
+import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import {
   BadRequestException,
   HttpException,
-  Injectable,
   InternalServerErrorException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
+} from '@nestjs/common/exceptions';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
+import { UserEntity } from 'src/db/entities/user.entity';
+import { UserService } from './../users/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtPayload } from './strategy/jwt-payload.interface';
-import { UserService } from './../users/users.service';
-import { UserEntity } from 'src/db/entities/user.entity';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {

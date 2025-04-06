@@ -1,19 +1,26 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FollowUpRepository } from 'src/db/repositories/follow-up.repository';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateFollowUpReqDto } from 'src/follow-ups/dtos/create-follow-up-req.dto';
 import { FollowUpFilterReqDto } from 'src/follow-ups/dtos/follow-up-filter-req.dto';
 import { UpdateFollowUpReqDto } from 'src/follow-ups/dtos/update-follow-up-req.dto';
+import { JwtPayload } from '../auth/strategy/jwt-payload.interface';
+import { FollowUpRepositoryInterface } from '../db/interfaces/follow-up.interface';
 
 @Injectable()
 export class FollowUpsService {
   constructor(
+    // @Inject(REQUEST) private request: Request,
     @Inject('followUpRepositoryInterface')
-    private readonly followUpRepository: FollowUpRepository,
+    private readonly followUpRepository: FollowUpRepositoryInterface,
   ) {}
 
-  async getAllFollowUpsWithFileter(followUpFilterReqDto: FollowUpFilterReqDto) {
+  async getAllFollowUpsWithFilter(followUpFilterReqDto: FollowUpFilterReqDto) {
     try {
-      return await this.followUpRepository.getAllFollowUpsByFileter(
+      return await this.followUpRepository.getAllFollowUpsByFilter(
         followUpFilterReqDto,
       );
     } catch (error) {
@@ -58,9 +65,19 @@ export class FollowUpsService {
     }
   }
 
-  async createFollowUp(createFollowUpReqDto: CreateFollowUpReqDto) {
+  async createFollowUp(
+    payload: JwtPayload,
+    createFollowUpReqDto: CreateFollowUpReqDto,
+  ) {
     try {
-      await this.followUpRepository.save(createFollowUpReqDto);
+      if (!payload) {
+        throw new UnauthorizedException();
+      }
+      const obj = {
+        ...createFollowUpReqDto,
+        agentId: payload.id,
+      };
+      await this.followUpRepository.save(obj);
       return true;
     } catch (error) {
       console.log(error);

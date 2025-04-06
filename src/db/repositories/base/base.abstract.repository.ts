@@ -5,14 +5,14 @@ import {
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
-import { BaseInterfacerepository } from './base.interface.repository';
+import { BaseInterfaceRepository } from './base.interface.repository';
 
 interface HasId {
   id: number;
 }
 
 export abstract class BaseAbstractRepository<T extends HasId>
-  implements BaseInterfacerepository<T>
+  implements BaseInterfaceRepository<T>
 {
   private entity: Repository<T>;
   protected constructor(entity: Repository<T>) {
@@ -35,7 +35,7 @@ export abstract class BaseAbstractRepository<T extends HasId>
     return this.entity.create(data);
   }
 
-  public async findByCondition(filterCondition: FindOneOptions<T>):Promise<T> {
+  public async findByCondition(filterCondition: FindOneOptions<T>): Promise<T> {
     return await this.entity.findOne(filterCondition);
   }
 

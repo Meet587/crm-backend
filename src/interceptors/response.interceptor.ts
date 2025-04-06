@@ -1,13 +1,13 @@
+import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
+import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
+import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import {
   CallHandler,
   ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
   NestInterceptor,
-} from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+} from '@nestjs/common/interfaces';
+
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 export interface Response<T> {
   status: boolean;

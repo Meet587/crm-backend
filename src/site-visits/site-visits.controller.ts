@@ -7,30 +7,41 @@ import {
   Post,
   Put,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { SiteVisitsService } from './site-visits.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SiteVisitFilterReqDto } from 'src/site-visits/dtos/site-visit-filter-req.dto';
 import { CreateSiteVisitReqDto } from 'src/site-visits/dtos/create-site-visit-req.dto';
 import { UpdateSiteVisitReqDto } from 'src/site-visits/dtos/update-site-visit-req.dto';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @Controller('site-visits')
 @ApiTags('Site Visits')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class SiteVisitsController {
   constructor(private readonly siteVisitsService: SiteVisitsService) {}
 
   @Get('list')
-  getAllSiteVisitesWithFilters(
+  getAllSiteVisitsWithFilters(
     @Query() siteVisitFilterReqDto: SiteVisitFilterReqDto,
   ) {
-    return this.siteVisitsService.getAllSiteVisitesWithFilters(
+    return this.siteVisitsService.getAllSiteVisitsWithFilters(
       siteVisitFilterReqDto,
     );
   }
 
   @Post('create')
-  createSiteVisit(@Body() createSiteVisitReqDto: CreateSiteVisitReqDto) {
-    return this.siteVisitsService.createSiteVisit(createSiteVisitReqDto);
+  createSiteVisit(
+    @Request() request,
+    @Body() createSiteVisitReqDto: CreateSiteVisitReqDto,
+  ) {
+    return this.siteVisitsService.createSiteVisit(
+      request?.user,
+      createSiteVisitReqDto,
+    );
   }
 
   @Put('/:id/update')

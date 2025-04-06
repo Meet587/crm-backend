@@ -8,10 +8,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import {
-  FollowUpStatusEnum,
-  FollowUpTypeEnum,
-} from 'src/db/entities/follow-up.entity';
+import { FollowUpTypeEnum } from '../../db/entities/follow-up.entity';
 
 export class CreateFollowUpReqDto {
   @ApiProperty({
@@ -25,16 +22,16 @@ export class CreateFollowUpReqDto {
   @Type(() => Number)
   clientId: number;
 
-  @ApiProperty({
-    name: 'agentId',
-    type: Number,
-    required: true,
-    example: 1,
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  @Type(() => Number)
-  agentId: number;
+  // @ApiProperty({
+  //   name: 'agentId',
+  //   type: Number,
+  //   required: true,
+  //   example: 1,
+  // })
+  // @IsNumber()
+  // @IsNotEmpty()
+  // @Type(() => Number)
+  // agentId: number;
 
   @ApiProperty({
     name: 'type',
@@ -55,15 +52,15 @@ export class CreateFollowUpReqDto {
   @IsNotEmpty()
   scheduledDate: Date;
 
-  @ApiProperty({
-    name: 'status',
-    required: true,
-    enum: FollowUpStatusEnum,
-    example: FollowUpStatusEnum.COMPLETED,
-  })
-  @IsEnum(FollowUpStatusEnum)
-  @IsNotEmpty()
-  status: FollowUpStatusEnum;
+  // @ApiProperty({
+  //   name: 'status',
+  //   required: true,
+  //   enum: FollowUpStatusEnum,
+  //   example: FollowUpStatusEnum.COMPLETED,
+  // })
+  // @IsEnum(FollowUpStatusEnum)
+  // @IsNotEmpty()
+  // status: FollowUpStatusEnum;
 
   @ApiProperty({
     name: 'outcome',

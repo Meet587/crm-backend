@@ -1,21 +1,27 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { SiteVisitRepository } from 'src/db/repositories/site-visit.repository';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateSiteVisitReqDto } from 'src/site-visits/dtos/create-site-visit-req.dto';
 import { SiteVisitFilterReqDto } from 'src/site-visits/dtos/site-visit-filter-req.dto';
 import { UpdateSiteVisitReqDto } from 'src/site-visits/dtos/update-site-visit-req.dto';
+import { JwtPayload } from '../auth/strategy/jwt-payload.interface';
+import { SiteVisitRepositoryInterface } from '../db/interfaces/site-visit.interface';
 
 @Injectable()
 export class SiteVisitsService {
   constructor(
     @Inject('siteVisitRepositoryInterface')
-    private readonly siteVisitRepository: SiteVisitRepository,
+    private readonly siteVisitRepository: SiteVisitRepositoryInterface,
   ) {}
 
-  async getAllSiteVisitesWithFilters(
+  async getAllSiteVisitsWithFilters(
     siteVisitFilterReqDto: SiteVisitFilterReqDto,
   ) {
     try {
-      return await this.siteVisitRepository.getAllSiteVisitssByFileter(
+      return await this.siteVisitRepository.getAllSiteVisitsByFilter(
         siteVisitFilterReqDto,
       );
     } catch (error) {
@@ -24,9 +30,19 @@ export class SiteVisitsService {
     }
   }
 
-  async createSiteVisit(createSiteVisitReqDto: CreateSiteVisitReqDto) {
+  async createSiteVisit(
+    payload: JwtPayload,
+    createSiteVisitReqDto: CreateSiteVisitReqDto,
+  ) {
     try {
-      await this.siteVisitRepository.save(createSiteVisitReqDto);
+      if (!payload) {
+        throw new UnauthorizedException();
+      }
+      const obj = {
+        ...createSiteVisitReqDto,
+        agentId: payload.id,
+      };
+      await this.siteVisitRepository.save(obj);
       return true;
     } catch (error) {
       console.log(error);

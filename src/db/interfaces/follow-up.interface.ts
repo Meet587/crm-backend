@@ -1,8 +1,8 @@
-import { FollowUpEntity } from 'src/db/entities/follow-up.entity';
-import { BaseInterfacerepository } from 'src/db/repositories/base/base.interface.repository';
-import { FollowUpFilterReqDto } from 'src/follow-ups/dtos/follow-up-filter-req.dto';
+import { FollowUpFilterReqDto } from '../../follow-ups/dtos/follow-up-filter-req.dto';
+import { FollowUpEntity } from '../entities/follow-up.entity';
+import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface FollowUpRepositoryInterface
-  extends BaseInterfacerepository<FollowUpEntity> {
-  getAllFollowUpsByFileter(followUpFilterReqDto: FollowUpFilterReqDto);
+  extends BaseInterfaceRepository<FollowUpEntity> {
+  getAllFollowUpsByFilter(followUpFilterReqDto: FollowUpFilterReqDto);
 }

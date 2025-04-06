@@ -7,9 +7,12 @@ import {
   Post,
   Put,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { FollowUpsService } from './follow-ups.service';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
@@ -19,28 +22,37 @@ import {
 import { FollowUpFilterReqDto } from 'src/follow-ups/dtos/follow-up-filter-req.dto';
 import { CreateFollowUpReqDto } from 'src/follow-ups/dtos/create-follow-up-req.dto';
 import { UpdateFollowUpReqDto } from 'src/follow-ups/dtos/update-follow-up-req.dto';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @Controller('follow-ups')
 @ApiTags('Follow Ups')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class FollowUpsController {
   constructor(private readonly followUpsService: FollowUpsService) {}
 
   @Get('list')
   @ApiOperation({
     description: 'get follow list with filters',
-    operationId: 'getAllFollowUpsWithFileter',
+    operationId: 'getAllFollowUpsWithFilter',
   })
-  getAllFollowUpsWithFileter(
+  getAllFollowUpsWithFilter(
     @Query() followUpFilterReqDto: FollowUpFilterReqDto,
   ) {
-    return this.followUpsService.getAllFollowUpsWithFileter(
+    return this.followUpsService.getAllFollowUpsWithFilter(
       followUpFilterReqDto,
     );
   }
 
   @Post('create')
-  createFollowUp(@Body() createFollowUpReqDto: CreateFollowUpReqDto) {
-    return this.followUpsService.createFollowUp(createFollowUpReqDto);
+  createFollowUp(
+    @Request() request,
+    @Body() createFollowUpReqDto: CreateFollowUpReqDto,
+  ) {
+    return this.followUpsService.createFollowUp(
+      request?.user,
+      createFollowUpReqDto,
+    );
   }
 
   @Put('/:id/update')

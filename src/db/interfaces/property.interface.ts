@@ -1,5 +1,5 @@
-import { PropertyEntity } from 'src/db/entities/property.entity';
-import { BaseInterfacerepository } from '../repositories/base/base.interface.repository';
+import { PropertyEntity } from '../entities/property.entity';
+import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface PropertyRepositoryInterface
-  extends BaseInterfacerepository<PropertyEntity> {}
+  extends BaseInterfaceRepository<PropertyEntity> {}

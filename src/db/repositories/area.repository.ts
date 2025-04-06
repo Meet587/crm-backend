@@ -1,8 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseAbstractRepository } from './base/base.abstrac.repository';
+import { BaseAbstractRepository } from './base/base.abstract.repository';
 import { Repository } from 'typeorm';
-import { AreaEntity } from 'src/db/entities/area.entity';
-import { AreaRepositoryInterface } from 'src/db/interfaces/area.interface';
+import { AreaEntity } from '../entities/area.entity';
+import { AreaRepositoryInterface } from '../interfaces/area.interface';
 
 export class AreaRepository
   extends BaseAbstractRepository<AreaEntity>

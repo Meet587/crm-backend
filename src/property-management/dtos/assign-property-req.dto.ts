@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class AssignProeprtyTo {
+export class AssignPropertyTo {
   @ApiProperty({
     name: 'propertyId',
     required: true,
-    description: 'proeprty id',
+    description: 'property id',
   })
   @IsNumber()
   @IsNotEmpty()

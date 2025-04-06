@@ -1,8 +1,8 @@
 import { Request } from 'express';
-import { JwtPayloadType } from 'src/user/dto/jwt-payload.type';
+import { JwtPayload } from '../auth/strategy/jwt-payload.interface';
 
 declare module 'express' {
   export interface Request {
-    user?: JwtPayloadType;
+    user?: JwtPayload;
   }
 }
