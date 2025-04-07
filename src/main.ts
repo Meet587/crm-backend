@@ -11,15 +11,20 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalInterceptors(new ResponseInterceptor());
 
+  const nodeEnv = process.env.NODE_ENV;
+
   const config = new DocumentBuilder()
     .setTitle('CRM')
     .setDescription('api for common crm use')
     .setVersion('1.0')
-    .addBearerAuth()
-    // .addServer('/api')
-    // .build();
+    .addBearerAuth();
 
-  const documentFactory = () => SwaggerModule.createDocument(app, config.build());
+  if (nodeEnv !== 'local') {
+    config.addServer('/api');
+  }
+
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, config.build());
   SwaggerModule.setup('api-docs', app, documentFactory);
 
   const port = process.env.APP_PORT ?? 3001;
