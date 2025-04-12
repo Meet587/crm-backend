@@ -1,33 +1,52 @@
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
-import { AreaEntity } from 'src/db/entities/area.entity';
-import { ClientsEntity } from 'src/db/entities/client.entity';
-import { FollowUpEntity } from 'src/db/entities/follow-up.entity';
-import { LocationEntity } from 'src/db/entities/location.entity';
-import { PropertyEntity } from 'src/db/entities/property.entity';
-import { SiteVisitEntity } from 'src/db/entities/site-visit.entity';
-import { UserEntity } from 'src/db/entities/user.entity';
 
+import { DbConfig } from '../config/interfaces/db.config';
+import { AreaEntity } from './entities/area.entity';
+import { ClientsEntity } from './entities/client.entity';
+import { FollowUpEntity } from './entities/follow-up.entity';
+import { LocationEntity } from './entities/location.entity';
+import { PropertyEntity } from './entities/property.entity';
+import { SiteVisitEntity } from './entities/site-visit.entity';
+import { UserEntity } from './entities/user.entity';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
-    return {
-      type: 'postgres',
-      database: process.env.DB_DATABASE,
-      host: process.env.DB_HOST,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      port: parseInt(process.env.DB_PORT),
-      entities: [
-        UserEntity,
-        PropertyEntity,
-        LocationEntity,
-        AreaEntity,
-        ClientsEntity,
-        FollowUpEntity,
-        SiteVisitEntity,
-      ],
-      autoLoadEntities: true,
-      synchronize: true,
-      migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-    } as TypeOrmModuleOptions;
+  constructor(private configService: ConfigService) {}
+
+  createTypeOrmOptions(): TypeOrmModuleOptions {
+    try {
+      const dbConfig = this.configService.getOrThrow<DbConfig>(
+        'environment.dbConfig',
+      );
+      if (!dbConfig) {
+        throw new Error('DB config not provided');
+      }
+      return {
+        type: dbConfig.type,
+        database: dbConfig.dbname,
+        host: dbConfig.host,
+        username: dbConfig.username,
+        password: dbConfig.password,
+        port: dbConfig.port,
+        entities: [
+          UserEntity,
+          PropertyEntity,
+          LocationEntity,
+          AreaEntity,
+          ClientsEntity,
+          FollowUpEntity,
+          SiteVisitEntity,
+        ],
+        // logging: true,
+        // autoLoadEntities: true,
+        // synchronize: true,
+        // migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+      } as TypeOrmModuleOptions;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }

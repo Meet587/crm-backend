@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserEntity } from 'src/db/entities/user.entity';
+import { AuthConfig } from '../config/interfaces/auth.config';
 import { UserService } from './../users/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
@@ -99,12 +100,20 @@ export class AuthService {
   async generateToken(payload: JwtPayload): Promise<Record<string, string>> {
     const [token, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
-        secret: process.env.JWT_SECRET,
-        expiresIn: process.env.JWT_SECRET_EXP,
+        secret: this.configService.getOrThrow<AuthConfig>(
+          'environment.authConfig',
+        ).jwtSecret,
+        expiresIn: this.configService.getOrThrow<AuthConfig>(
+          'environment.authConfig',
+        ).expiresIn,
       }),
       this.jwtService.signAsync(payload, {
-        secret: process.env.JWT_SECRET,
-        expiresIn: process.env.JWT_REFRESH_TOKEN_EXP,
+        secret: this.configService.getOrThrow<AuthConfig>(
+          'environment.authConfig',
+        ).jwtSecret,
+        expiresIn: this.configService.getOrThrow<AuthConfig>(
+          'environment.authConfig',
+        ).RefreshExpiresIn,
       }),
     ]);
 

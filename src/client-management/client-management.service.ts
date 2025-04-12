@@ -2,24 +2,24 @@ import {
   ConflictException,
   Inject,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
-import { AssignClientToAgentReqDto } from 'src/client-management/dtos/assign-client-to-agent-req.dto';
-import { CreateClientRequestDto } from 'src/client-management/dtos/create-client-req.dto';
-import { UpdateLeadStatusReqDto } from 'src/client-management/dtos/update-lead-status-req.dto';
-import { UserEntity } from 'src/db/entities/user.entity';
-import { ClientRepository } from 'src/db/repositories/client.repository';
-import { UserService } from 'src/users/users.service';
-import { PropertyManagementService } from './../property-management/property-management.service';
-import { UpdateClientRequestDto } from 'src/client-management/dtos/update-client-details-req.dto';
-import { ClientsEntity } from 'src/db/entities/client.entity';
+import { ClientsEntity } from '../db/entities/client.entity';
+import { UserEntity } from '../db/entities/user.entity';
+import { ClientRepositoryInterface } from '../db/interfaces/client.interface';
+import { PropertyManagementService } from '../property-management/property-management.service';
+import { UserService } from '../users/users.service';
+import { AssignClientToAgentReqDto } from './dtos/assign-client-to-agent-req.dto';
+import { CreateClientRequestDto } from './dtos/create-client-req.dto';
+import { UpdateClientRequestDto } from './dtos/update-client-details-req.dto';
+import { UpdateLeadStatusReqDto } from './dtos/update-lead-status-req.dto';
 
 @Injectable()
 export class ClientManagementService {
   constructor(
     // @Inject(REQUEST) request: Request,
     @Inject('clientRepositoryInterface')
-    private readonly clientRepository: ClientRepository,
+    private readonly clientRepository: ClientRepositoryInterface,
     private readonly userService: UserService,
     private readonly propertyManagementService: PropertyManagementService,
   ) {}

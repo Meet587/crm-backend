@@ -4,14 +4,14 @@ import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { Env } from './config/env';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.setGlobalPrefix('api');
   app.useGlobalInterceptors(new ResponseInterceptor());
 
-  const nodeEnv = process.env.NODE_ENV;
+  const nodeEnv = process.env.NODE_ENV as Env;
 
   const config = new DocumentBuilder()
     .setTitle('CRM')
@@ -19,8 +19,9 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth();
 
-  if (nodeEnv !== 'local') {
+  if (nodeEnv !== Env.LOCAL) {
     config.addServer('/api');
+    app.setGlobalPrefix('api');
   }
 
   const documentFactory = () =>

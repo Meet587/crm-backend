@@ -63,6 +63,12 @@ export class PropertyEntity {
   @Column({ type: 'int' })
   year_built: number;
 
+  @Column('simple-array', { nullable: true })
+  image_urls: string[];
+
+  @Column({ nullable: true })
+  thumbnail_url: string;
+
   @Column({
     type: 'enum',
     enum: PropertyStatusEnum,
@@ -86,9 +92,6 @@ export class PropertyEntity {
 
   @Column({ type: 'int' })
   area_id: number;
-
-  @Column({ type: 'text', default: null, nullable: true })
-  imageUrl: string;
 
   @Column({ type: 'text', nullable: true, default: null })
   description: string;
