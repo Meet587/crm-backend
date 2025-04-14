@@ -16,4 +16,9 @@ export const prodEnv = (): CommonConfig => ({
     dbname: process.env.DB_DATABASE,
     synchronize: false,
   },
+  cloudinaryConfig: {
+    CloudinaryKey: process.env.CLOUDINARY_CLOUD_NAME,
+    CloudinarySecret: process.env.CLOUDINARY_API_KEY,
+    CloudinaryCloudName: process.env.CLOUDINARY_API_SECRET,
+  },
 });

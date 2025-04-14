@@ -6,7 +6,8 @@ export const localEnv = (): CommonConfig => ({
     expiresIn: process.env.JWT_SECRET_EXP,
     RefreshExpiresIn: process.env.JWT_REFRESH_TOKEN_EXP,
   },
-  serviceConfig: {},
+  serviceConfig: {
+  },
   dbConfig: {
     type: 'postgres',
     host: process.env.DB_HOST,
@@ -15,5 +16,10 @@ export const localEnv = (): CommonConfig => ({
     password: process.env.DB_PASSWORD,
     dbname: process.env.DB_DATABASE,
     synchronize: false,
+  },
+  cloudinaryConfig: {
+    CloudinaryKey: process.env.CLOUDINARY_API_KEY,
+    CloudinarySecret: process.env.CLOUDINARY_API_SECRET,
+    CloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
   },
 });

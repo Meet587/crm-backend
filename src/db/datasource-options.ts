@@ -9,6 +9,7 @@ import { LocationEntity } from './entities/location.entity';
 import { PropertyEntity } from './entities/property.entity';
 import { SiteVisitEntity } from './entities/site-visit.entity';
 import { UserEntity } from './entities/user.entity';
+import { PropertyImageEntity } from './entities/property-image.entity';
 
 const dbConfig = env.getConfig().dbConfig as DbConfig;
 
@@ -27,9 +28,8 @@ const dataSourceOptions: DataSourceOptions = {
     ClientsEntity,
     FollowUpEntity,
     SiteVisitEntity,
+    PropertyImageEntity,
   ],
-  logging: true,
-  synchronize: dbConfig.synchronize,
 };
 
 export default new DataSource(dataSourceOptions);

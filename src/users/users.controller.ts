@@ -1,15 +1,14 @@
-import { Controller, UseGuards, Get } from '@nestjs/common/decorators';
-import { UserService } from './users.service';
-import { JwtAuthGuard } from 'src/auth/strategy/jwt-auth.guard';
+import { Controller, Get, UseGuards } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/strategy/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/strategy/roles.guard';
-import { UserRole } from 'src/db/entities/user.entity';
 import { CacheControl } from 'src/helpers/cache.decorator';
+import { UserService } from './users.service';
 
 @Controller('users')
 @ApiTags('User Management')
 @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

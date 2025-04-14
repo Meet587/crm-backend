@@ -10,6 +10,7 @@ import { PropertyEntity } from './entities/property.entity';
 import { SiteVisitEntity } from './entities/site-visit.entity';
 import { UserEntity } from './entities/user.entity';
 import { Injectable } from '@nestjs/common';
+import { PropertyImageEntity } from './entities/property-image.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -38,11 +39,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           ClientsEntity,
           FollowUpEntity,
           SiteVisitEntity,
+          PropertyImageEntity,
         ],
         // logging: true,
-        // autoLoadEntities: true,
-        // synchronize: true,
-        // migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+        autoLoadEntities: true,
+        synchronize: true,
+        migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       } as TypeOrmModuleOptions;
     } catch (error) {
       console.log(error);

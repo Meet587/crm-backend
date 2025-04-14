@@ -5,6 +5,7 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Env } from './config/env';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -31,6 +32,7 @@ async function bootstrap() {
   const port = process.env.APP_PORT ?? 3001;
 
   app.enableCors();
+  app.useStaticAssets(join(__dirname, '..', 'public'));
   await app.listen(port, () => {
     console.log(`crm app started on ${port}`);
   });

@@ -11,7 +11,9 @@ import {
   ManyToOne,
   JoinColumn,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
+import { PropertyImageEntity } from './property-image.entity';
 
 export enum PropertyForEnum {
   rent = 'rent',
@@ -63,8 +65,8 @@ export class PropertyEntity {
   @Column({ type: 'int' })
   year_built: number;
 
-  @Column('simple-array', { nullable: true })
-  image_urls: string[];
+  @OneToMany(() => PropertyImageEntity, (image) => image.property)
+  images: PropertyImageEntity[];
 
   @Column({ nullable: true })
   thumbnail_url: string;

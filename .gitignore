@@ -47,6 +47,7 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+/public/uploads
 
 # Runtime data
 pids
