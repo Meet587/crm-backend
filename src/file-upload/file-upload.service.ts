@@ -23,6 +23,7 @@ export class FileUploadService {
     try {
       const property =
         await this.propertyManagementService.findById(propertyId);
+
       for (let i = 0; i < images.length; i++) {
         const ImagePath = path.join(
           process.cwd(),
@@ -31,20 +32,7 @@ export class FileUploadService {
           images[i].filename,
         );
         const result = await this.cloudinaryService.upload(ImagePath);
-        setTimeout(async () => {
-          try {
-            if (
-              fs.existsSync(images[i].destination + '/' + images[i].filename)
-            ) {
-              fs.unlinkSync(images[i].destination + '/' + images[i].filename);
-              console.log('File deleted successfully');
-            } else {
-              console.log('path not exist');
-            }
-          } catch (err) {
-            console.error('Error deleting file:', err);
-          }
-        }, 2000);
+
         const imageRes = {
           asset_id: result.asset_id,
           property_id: property.id,
@@ -57,6 +45,21 @@ export class FileUploadService {
     } catch (error) {
       console.log(error);
       throw error;
+    } finally {
+      images.forEach((im) => {
+        setTimeout(async () => {
+          try {
+            if (fs.existsSync(im.destination + '/' + im.filename)) {
+              fs.unlinkSync(im.destination + '/' + im.filename);
+              console.log('File deleted successfully');
+            } else {
+              console.log('path not exist');
+            }
+          } catch (err) {
+            console.error('Error deleting file:', err);
+          }
+        }, 2000);
+      });
     }
   }
 

@@ -35,13 +35,13 @@ export class PropertyManagementService {
 
       const whereClaus: FindManyOptions<PropertyEntity> = {};
       if (payload.role === UserRole.ADMIN) {
-        whereClaus.relations = { agent: true };
+        whereClaus.relations = { agent: true, images: true };
         whereClaus.select = ['agent', 'area'];
       } else if (payload.role === UserRole.RM) {
         whereClaus.where = {
           assignTo: payload.id,
         };
-        whereClaus.relations = { agent: false };
+        whereClaus.relations = { agent: false, images: true };
       }
 
       const list = await this.propertyRepository.findWithRelations(whereClaus);
@@ -49,6 +49,8 @@ export class PropertyManagementService {
         if (obj?.agent) {
           delete obj.agent.password;
         }
+        if (obj?.images.length !== 0)
+          obj.thumbnail_url = obj.images[0].secure_url;
       });
       return list;
     } catch (error) {
