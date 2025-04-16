@@ -3,17 +3,18 @@ import { ClientsEntity } from 'src/db/entities/client.entity';
 import { LocationEntity } from 'src/db/entities/location.entity';
 import { UserEntity } from 'src/db/entities/user.entity';
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
+  Entity,
   JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { PropertyImageEntity } from './property-image.entity';
+import { DealsEntity } from './deals.entity';
 
 export enum PropertyForEnum {
   rent = 'rent',
@@ -67,6 +68,9 @@ export class PropertyEntity {
 
   @OneToMany(() => PropertyImageEntity, (image) => image.property)
   images: PropertyImageEntity[];
+
+  @OneToMany(() => DealsEntity, (deal) => deal.property)
+  deals: DealsEntity[];
 
   @Column({ nullable: true })
   thumbnail_url: string;

@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { DealsEntity } from './deals.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -40,6 +41,9 @@ export class UserEntity {
 
   @OneToMany(() => ClientsEntity, (client) => client.assignedAgent)
   clients: ClientsEntity[];
+
+  @OneToMany(() => DealsEntity, (deal) => deal.agent)
+  deals: DealsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

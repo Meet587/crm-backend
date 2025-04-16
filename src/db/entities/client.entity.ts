@@ -14,6 +14,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { DealsEntity } from './deals.entity';
 
 export enum InterestTypeEnum {
   RESIDENTIAL = 'residential',
@@ -120,6 +121,9 @@ export class ClientsEntity {
 
   @OneToMany(() => SiteVisitEntity, (siteVisit) => siteVisit.client)
   siteVisits: SiteVisitEntity[];
+
+  @OneToMany(() => DealsEntity, (deal) => deal.client)
+  deals: DealsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
