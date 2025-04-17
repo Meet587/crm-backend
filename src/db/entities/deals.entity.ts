@@ -24,10 +24,10 @@ export class DealsEntity {
   id: number;
 
   @Column({ type: 'enum', enum: DealStageEnum })
-  dealStage: DealStageEnum;
+  deal_stage: DealStageEnum;
 
   @Column({ type: 'decimal', scale: 2 })
-  dealValue: number;
+  deal_value: number;
 
   @ManyToOne(() => ClientsEntity, (client) => client.deals)
   @JoinColumn({ name: 'client_id' })
@@ -53,8 +53,8 @@ export class DealsEntity {
   @Column()
   agent_id: number;
 
-  @CreateDateColumn({ type: 'date', nullable: false })
-  finalizedDate: Date;
+  @CreateDateColumn({ type: 'date', nullable: false, default: new Date() })
+  finalized_date: Date;
 
   @CreateDateColumn()
   createdAt: Date;

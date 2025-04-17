@@ -47,7 +47,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           DealsEntity,
           CommissionEntity,
         ],
-        // logging: true,
+        logging: true,
         // autoLoadEntities: true,
         // synchronize: true,
         migrations: [__dirname + '/migrations/**/*{.ts,.js}'],

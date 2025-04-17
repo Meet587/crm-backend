@@ -26,7 +26,7 @@ export class BuildersEntity {
   phone_number: string;
 
   @Column({ type: 'decimal', scale: 2 })
-  commissionRate: number;
+  commission_rate: number;
 
   @OneToMany(() => CommissionEntity, (commission) => commission.builder)
   commissions: CommissionEntity[];

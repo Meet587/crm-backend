@@ -28,7 +28,7 @@ export class CommissionEntity {
   status: commissionPaymentStatusEnum;
 
   @CreateDateColumn({ type: 'date', nullable: false })
-  payoutDate: Date;
+  payout_date: Date;
 
   @ManyToOne(() => BuildersEntity, (builder) => builder.commissions)
   @JoinColumn({ name: 'builder_id' })

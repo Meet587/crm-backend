@@ -2,14 +2,6 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import * as env from '../config/environment.config';
 import { DbConfig } from '../config/interfaces/db.config';
-import { AreaEntity } from './entities/area.entity';
-import { ClientsEntity } from './entities/client.entity';
-import { FollowUpEntity } from './entities/follow-up.entity';
-import { LocationEntity } from './entities/location.entity';
-import { PropertyEntity } from './entities/property.entity';
-import { SiteVisitEntity } from './entities/site-visit.entity';
-import { UserEntity } from './entities/user.entity';
-import { PropertyImageEntity } from './entities/property-image.entity';
 
 const dbConfig = env.getConfig().dbConfig as DbConfig;
 
@@ -20,16 +12,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: dbConfig.username,
   password: dbConfig.password,
   port: dbConfig.port,
-  entities: [
-    UserEntity,
-    PropertyEntity,
-    LocationEntity,
-    AreaEntity,
-    ClientsEntity,
-    FollowUpEntity,
-    SiteVisitEntity,
-    PropertyImageEntity,
-  ],
+  entities: [],
 };
 
 export default new DataSource(dataSourceOptions);

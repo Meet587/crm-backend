@@ -15,6 +15,7 @@ import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { PropertyManagementModule } from './property-management/property-management.module';
 import { SiteVisitsModule } from './site-visits/site-visits.module';
 import { UserModule } from './users/users.module';
+import { DealsModule } from './deals/deals.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './users/users.module';
     FollowUpsModule,
     SiteVisitsModule,
     FileUploadModule,
+    DealsModule,
   ],
   controllers: [AppController],
   providers: [
