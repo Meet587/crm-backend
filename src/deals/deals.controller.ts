@@ -5,8 +5,9 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { DealsService } from './deals.service';
 import { CreateDealsReqDto } from './dtos/create-deals.req.dto';
 import { UpdateDealsReqDto } from './dtos/update-deal-req.dto';
@@ -34,10 +35,13 @@ export class DealsController {
     return await this.dealsService.createDeal(createDealsReqDto);
   }
 
-  @Post('/:dealId/update')
+  @Put('/:dealId/update')
   @ApiOperation({
     description: 'update deal by id',
     operationId: 'updateDealById',
+  })
+  @ApiBody({
+    type: CreateDealsReqDto,
   })
   @ApiParam({
     name: 'dealId',

@@ -16,6 +16,7 @@ import { PropertyManagementModule } from './property-management/property-managem
 import { SiteVisitsModule } from './site-visits/site-visits.module';
 import { UserModule } from './users/users.module';
 import { DealsModule } from './deals/deals.module';
+import { BuildersModule } from './builders/builders.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { DealsModule } from './deals/deals.module';
     SiteVisitsModule,
     FileUploadModule,
     DealsModule,
+    BuildersModule,
   ],
   controllers: [AppController],
   providers: [
