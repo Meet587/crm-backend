@@ -17,6 +17,7 @@ import { SiteVisitsModule } from './site-visits/site-visits.module';
 import { UserModule } from './users/users.module';
 import { DealsModule } from './deals/deals.module';
 import { BuildersModule } from './builders/builders.module';
+import { CommissionsModule } from './commissions/commissions.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { BuildersModule } from './builders/builders.module';
     FileUploadModule,
     DealsModule,
     BuildersModule,
+    CommissionsModule,
   ],
   controllers: [AppController],
   providers: [

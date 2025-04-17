@@ -23,5 +23,6 @@ import { DealsService } from './deals.service';
       useClass: DealsRepository,
     },
   ],
+  exports: [DealsService],
 })
 export class DealsModule {}

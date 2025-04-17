@@ -41,6 +41,9 @@ export class CommissionEntity {
   @JoinColumn({ name: 'deal_id' })
   deal: DealsEntity;
 
+  @Column({ nullable: false })
+  deal_id: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

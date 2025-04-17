@@ -15,5 +15,6 @@ import { BuildersService } from './builders.service';
       useClass: BuildersRepository,
     },
   ],
+  exports:[BuildersService]
 })
 export class BuildersModule {}
