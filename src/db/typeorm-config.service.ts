@@ -48,8 +48,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           CommissionEntity,
         ],
         logging: true,
-        autoLoadEntities: true,
-        synchronize: true,
+        // autoLoadEntities: true,
+        // synchronize: true,
         migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       } as TypeOrmModuleOptions;
     } catch (error) {
