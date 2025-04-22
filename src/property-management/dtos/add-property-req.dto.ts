@@ -8,7 +8,6 @@ import {
   IsString,
 } from 'class-validator';
 import {
-  PropertyForEnum,
   PropertyStatusEnum,
   PropertyTypeEnum,
 } from 'src/db/entities/property.entity';
@@ -29,7 +28,7 @@ export class AddPropertyReqDto {
     required: true,
     description: 'Property address',
   })
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   address: string;
 
@@ -59,7 +58,7 @@ export class AddPropertyReqDto {
   @IsNumber()
   location_id: number;
 
-  @ApiProperty({ example: 1, description: 'Area ID' })
+  @ApiProperty({ example: 1, description: 'agent ID' })
   @IsNotEmpty()
   @Type(() => Number)
   @IsNumber()

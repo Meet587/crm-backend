@@ -7,13 +7,13 @@ import {
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/strategy/jwt-payload.interface';
+import { PropertyEntity } from 'src/db/entities/property.entity';
 import { UserRole } from 'src/db/entities/user.entity';
 import { PropertyRepository } from 'src/db/repositories/property.repository';
 import { AddPropertyReqDto } from 'src/property-management/dtos/add-property-req.dto';
 import { AssignPropertyTo } from 'src/property-management/dtos/assign-property-req.dto';
 import { UserService } from 'src/users/users.service';
 import { FindManyOptions, In } from 'typeorm';
-import { PropertyEntity } from 'src/db/entities/property.entity';
 import { UpdatePropertyReqDto } from './dtos/update-property-req.dto';
 
 @Injectable()
@@ -63,7 +63,7 @@ export class PropertyManagementService {
     try {
       const property = await this.propertyRepository.findByCondition({
         where: { id },
-        relations: { agent: true },
+        relations: { agent: true, images: true },
       });
 
       if (!property) {

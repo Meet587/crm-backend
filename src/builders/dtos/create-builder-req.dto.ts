@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -59,5 +60,6 @@ export class CreateBuilderReqDto {
   })
   @IsNumber()
   @IsNotEmpty()
+  @Type(() => Number)
   commission_rate: number;
 }

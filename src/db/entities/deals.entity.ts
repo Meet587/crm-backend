@@ -38,7 +38,7 @@ export class DealsEntity {
 
   @ManyToOne(() => PropertyEntity, (property) => property.deals)
   @JoinColumn({ name: 'property_id' })
-  property: ClientsEntity;
+  property: PropertyEntity;
 
   @Column()
   property_id: number;

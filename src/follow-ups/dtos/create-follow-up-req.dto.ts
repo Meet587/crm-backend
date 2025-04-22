@@ -22,16 +22,16 @@ export class CreateFollowUpReqDto {
   @Type(() => Number)
   clientId: number;
 
-  // @ApiProperty({
-  //   name: 'agentId',
-  //   type: Number,
-  //   required: true,
-  //   example: 1,
-  // })
-  // @IsNumber()
-  // @IsNotEmpty()
-  // @Type(() => Number)
-  // agentId: number;
+  @ApiProperty({
+    name: 'propertyId',
+    type: Number,
+    required: true,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  propertyId: number;
 
   @ApiProperty({
     name: 'type',

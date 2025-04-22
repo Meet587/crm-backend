@@ -18,7 +18,36 @@ export class DealsService {
 
   async getAllDeals() {
     try {
-      return await this.dealsRepository.findAll();
+      return await this.dealsRepository.findAll({
+        relations: {
+          agent: true,
+          client: true,
+          commission: true,
+          property: { location: true, area: true },
+        },
+        select: {
+          agent: {
+            id: true,
+            fname: true,
+            lname: true,
+          },
+          client: {
+            id: true,
+            name: true,
+            phoneNumber: true,
+            budgetMax: true,
+            budgetMin: true,
+          },
+          property: {
+            address: true,
+            area: true,
+            id: true,
+            location: true,
+            price: true,
+            sqft: true,
+          },
+        },
+      });
     } catch (error) {
       console.error('error while fetching deals list', error);
       throw error;

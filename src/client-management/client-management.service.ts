@@ -2,7 +2,7 @@ import {
   ConflictException,
   Inject,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { ClientsEntity } from '../db/entities/client.entity';
 import { UserEntity } from '../db/entities/user.entity';
@@ -71,7 +71,7 @@ export class ClientManagementService {
         relations: {
           assignedAgent: true,
           followUps: true,
-          interestedProperties: true,
+          interestedProperties: { images: true },
           siteVisits: { property: true },
         },
         select: {
@@ -101,6 +101,9 @@ export class ClientManagementService {
       if (!client) {
         throw new NotFoundException('client details not found with this id.');
       }
+      client.interestedProperties.forEach(p=>
+        p.thumbnail_url = p.images.length !== 0 ? p.images[0].secure_url:null
+      )
       return client;
     } catch (error) {
       console.log(error);
@@ -198,14 +201,8 @@ export class ClientManagementService {
   async addPropertyInterest(clientId: number, propertyIds: number[]) {
     try {
       const client = await this.findClientById(clientId);
-      const ids: number[] = [
-        ...new Set([
-          ...client.interestedProperties.map((p) => p.id),
-          ...propertyIds,
-        ]),
-      ];
       const properties =
-        await this.propertyManagementService.findByPropertyIds(ids);
+        await this.propertyManagementService.findByPropertyIds(propertyIds);
       client.interestedProperties = [...properties];
       return await this.clientRepository.save(client);
     } catch (error) {

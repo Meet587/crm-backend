@@ -1,14 +1,15 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
 import { ClientsEntity } from './client.entity';
+import { UserEntity } from './user.entity';
+import { PropertyEntity } from './property.entity';
 
 export enum FollowUpStatusEnum {
   SCHEDULED = 'scheduled',
@@ -37,6 +38,13 @@ export class FollowUpEntity {
 
   @Column('int8')
   clientId: number;
+
+  @ManyToOne(() => PropertyEntity, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'propertyId' })
+  property: PropertyEntity;
+
+  @Column('int8')
+  property_id: number;
 
   @ManyToOne(() => UserEntity, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'agentId' })

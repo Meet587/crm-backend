@@ -14,11 +14,11 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { GetPropertyResDto } from './dtos/get-property-res.dto';
-import { LocationService } from 'src/property-management/location.service';
-import { CreateLocationReqDto } from 'src/property-management/dtos/create-location-req.dto';
-import { CreateAreaReqDto } from 'src/property-management/dtos/create-area-req.dto';
 import { JwtAuthGuard } from 'src/auth/strategy/jwt-auth.guard';
+import { CreateAreaReqDto } from 'src/property-management/dtos/create-area-req.dto';
+import { CreateLocationReqDto } from 'src/property-management/dtos/create-location-req.dto';
+import { LocationService } from 'src/property-management/location.service';
+import { GetPropertyResDto } from './dtos/get-property-res.dto';
 
 @Controller('location')
 @ApiTags('Locations')
@@ -30,20 +30,20 @@ export class LocationController {
   @Get('list')
   @ApiOperation({ description: 'get location list' })
   @ApiResponse({ type: GetPropertyResDto })
-  async getProperty(): Promise<any> {
+  async getAllLocations() {
     return await this.locationService.getAllLocations();
   }
 
   @Post('create')
   @ApiOperation({ description: 'add location' })
-  async addproperty(@Body() body: CreateLocationReqDto) {
+  async addLocation(@Body() body: CreateLocationReqDto) {
     return await this.locationService.addLocation(body);
   }
 
   @Get('area/list')
   @ApiOperation({ description: 'get location list' })
   @ApiResponse({ type: GetPropertyResDto })
-  async getAllAreas(): Promise<any> {
+  async getAllAreas() {
     return await this.locationService.getAllAreas();
   }
 
@@ -57,7 +57,7 @@ export class LocationController {
   @ApiResponse({ type: GetPropertyResDto })
   async getAreasByLocation(
     @Param('location_id', ParseIntPipe) location_id: number,
-  ): Promise<any> {
+  ) {
     return await this.locationService.getAreasByLocation(location_id);
   }
 
