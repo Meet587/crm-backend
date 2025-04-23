@@ -1,5 +1,5 @@
-import { NotAcceptableException } from '@nestjs/common';
-import { diskStorage } from 'multer';
+import { NotAcceptableException } from '@nestjs/common/exceptions/not-acceptable.exception';
+import { diskStorage } from 'multer/index';
 import * as path from 'path';
 
 const storage = diskStorage({

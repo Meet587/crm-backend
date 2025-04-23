@@ -6,10 +6,18 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CommissionsService } from './commissions.service';
 import { CreateCommissionReqDto } from './dtos/create-commission-req.dto';
+import { FilterCommissionsReqDto } from './dtos/filter-commission-req.dto';
 import { UpdateCommissionReqDto } from './dtos/update-commission-req.dto';
 
 @Controller('commissions')
@@ -22,8 +30,10 @@ export class CommissionsController {
     description: 'fetch commission list',
     operationId: 'fetchCommissionList',
   })
-  async getAllBuilders() {
-    return await this.commissionsService.getCommissionsList();
+  async getAllBuilders(
+    @Query() filterCommissionsReqDto: FilterCommissionsReqDto,
+  ) {
+    return await this.commissionsService.getCommissionsList(filterCommissionsReqDto);
   }
 
   @Post('create')

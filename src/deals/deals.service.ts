@@ -4,6 +4,7 @@ import { DealsRepositoryInterface } from '../db/interfaces/deals.interface';
 import { PropertyManagementService } from '../property-management/property-management.service';
 import { UserService } from '../users/users.service';
 import { CreateDealsReqDto } from './dtos/create-deals.req.dto';
+import { FilterDealsReqDto } from './dtos/filter-deals-req.sto';
 import { UpdateDealsReqDto } from './dtos/update-deal-req.dto';
 
 @Injectable()
@@ -16,38 +17,11 @@ export class DealsService {
     private readonly clientManagementService: ClientManagementService,
   ) {}
 
-  async getAllDeals() {
+  async getAllDeals(filterDealsReqDto: FilterDealsReqDto) {
     try {
-      return await this.dealsRepository.findAll({
-        relations: {
-          agent: true,
-          client: true,
-          commission: true,
-          property: { location: true, area: true },
-        },
-        select: {
-          agent: {
-            id: true,
-            fname: true,
-            lname: true,
-          },
-          client: {
-            id: true,
-            name: true,
-            phoneNumber: true,
-            budgetMax: true,
-            budgetMin: true,
-          },
-          property: {
-            address: true,
-            area: true,
-            id: true,
-            location: true,
-            price: true,
-            sqft: true,
-          },
-        },
-      });
+      return await this.dealsRepository.getAllDealsWithFilter(
+        filterDealsReqDto,
+      );
     } catch (error) {
       console.error('error while fetching deals list', error);
       throw error;

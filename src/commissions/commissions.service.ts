@@ -3,6 +3,7 @@ import { BuildersService } from '../builders/builders.service';
 import { CommissionRepositoryInterface } from '../db/interfaces/commission.interface';
 import { DealsService } from '../deals/deals.service';
 import { CreateCommissionReqDto } from './dtos/create-commission-req.dto';
+import { FilterCommissionsReqDto } from './dtos/filter-commission-req.dto';
 import { UpdateCommissionReqDto } from './dtos/update-commission-req.dto';
 
 @Injectable()
@@ -14,9 +15,11 @@ export class CommissionsService {
     private readonly dealsService: DealsService,
   ) {}
 
-  async getCommissionsList() {
+  async getCommissionsList(filterCommissionsReqDto: FilterCommissionsReqDto) {
     try {
-      return await this.commissionRepository.findAll();
+      return await this.commissionRepository.getCommissionsListWithFilters(
+        filterCommissionsReqDto,
+      );
     } catch (error) {
       console.error('error while fetching commissions list', error);
       throw error;

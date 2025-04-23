@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger/dist/decorators/api-property.decorator';
 import { Type } from 'class-transformer';
 import { IsDateString, IsEnum, IsNumber, IsOptional } from 'class-validator';
-import { FollowUpStatusEnum } from 'src/db/entities/follow-up.entity';
+import { FollowUpStatusEnum } from '../../db/entities/follow-up.entity';
 
 export class FollowUpFilterReqDto {
   @ApiProperty({

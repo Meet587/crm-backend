@@ -11,6 +11,7 @@ import { PropertyManagementService } from '../property-management/property-manag
 import { UserService } from '../users/users.service';
 import { AssignClientToAgentReqDto } from './dtos/assign-client-to-agent-req.dto';
 import { CreateClientRequestDto } from './dtos/create-client-req.dto';
+import { FilterLeadReqDto } from './dtos/filter-lead-req.dto';
 import { UpdateClientRequestDto } from './dtos/update-client-details-req.dto';
 import { UpdateLeadStatusReqDto } from './dtos/update-lead-status-req.dto';
 
@@ -24,14 +25,17 @@ export class ClientManagementService {
     private readonly propertyManagementService: PropertyManagementService,
   ) {}
 
-  async getClientList() {
+  async getClientList(filterLeadReqDto: FilterLeadReqDto) {
     try {
-      const list = await this.clientRepository.findAll({
-        order: { id: 'ASC' },
-      });
-      return list;
+      return await this.clientRepository.getClientsWithFilters(
+        filterLeadReqDto,
+      );
     } catch (error) {
-      console.log(error);
+      console.log(
+        'error while fetching clients list with filter',
+        filterLeadReqDto,
+        error,
+      );
       throw error;
     }
   }
@@ -101,9 +105,11 @@ export class ClientManagementService {
       if (!client) {
         throw new NotFoundException('client details not found with this id.');
       }
-      client.interestedProperties.forEach(p=>
-        p.thumbnail_url = p.images.length !== 0 ? p.images[0].secure_url:null
-      )
+      client.interestedProperties.forEach(
+        (p) =>
+          (p.thumbnail_url =
+            p.images.length !== 0 ? p.images[0].secure_url : null),
+      );
       return client;
     } catch (error) {
       console.log(error);

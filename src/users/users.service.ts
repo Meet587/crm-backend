@@ -4,12 +4,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import * as bcrypt from 'bcryptjs';
-import { UserRepositoryInterface } from './../db/interfaces/user.interface';
+import { Request } from 'express';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UserEntity } from 'src/db/entities/user.entity';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
+import { UserRepositoryInterface } from './../db/interfaces/user.interface';
 
 @Injectable()
 export class UserService {

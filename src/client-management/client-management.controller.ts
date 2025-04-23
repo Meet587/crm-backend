@@ -7,50 +7,61 @@ import {
   Patch,
   Post,
   Put,
+  Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
-import { ClientManagementService } from './client-management.service';
 import {
   ApiBearerAuth,
   ApiBody,
-  ApiOkResponse,
   ApiOperation,
   ApiParam,
-  ApiResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateClientRequestDto } from 'src/client-management/dtos/create-client-req.dto';
-import { UpdateLeadStatusReqDto } from 'src/client-management/dtos/update-lead-status-req.dto';
-import { AssignClientToAgentReqDto } from 'src/client-management/dtos/assign-client-to-agent-req.dto';
-import { AddPropertyInterestReqDto } from 'src/client-management/dtos/add-property-interest.det';
-import { UpdateClientRequestDto } from 'src/client-management/dtos/update-client-details-req.dto';
-import { CacheControl } from 'src/helpers/cache.decorator';
+import { Request } from 'express';
+
 import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
+import { UserRole } from '../db/entities/user.entity';
+import { CacheControl } from '../helpers/cache.decorator';
+import { ClientManagementService } from './client-management.service';
+import { AddPropertyInterestReqDto } from './dtos/add-property-interest.det';
+import { AssignClientToAgentReqDto } from './dtos/assign-client-to-agent-req.dto';
+import { CreateClientRequestDto } from './dtos/create-client-req.dto';
+import { FilterLeadReqDto } from './dtos/filter-lead-req.dto';
+import { UpdateClientRequestDto } from './dtos/update-client-details-req.dto';
+import { UpdateLeadStatusReqDto } from './dtos/update-lead-status-req.dto';
 
 @Controller('client-management')
 @ApiTags('Client Management')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
+@CacheControl(500)
 export class ClientManagementController {
   constructor(
     private readonly clientManagementService: ClientManagementService,
   ) {}
 
   @Get('get-client-list')
-  @CacheControl(300)
   @ApiOperation({
     operationId: 'getClientList',
     description: 'client list',
   })
-  async getClientList() {
-    const client = await this.clientManagementService.getClientList();
+  async getClientList(
+    @Query() filterLeadReqDto: FilterLeadReqDto,
+    @Req() request: Request,
+  ) {
+    if (request.user && request.user.role !== UserRole.ADMIN) {
+      filterLeadReqDto.agentAssign = request.user.id;
+    }
+    const client =
+      await this.clientManagementService.getClientList(filterLeadReqDto);
     return {
       list: client,
     };
   }
 
   @Get('/:clientId/profile')
-  // @CacheControl(300)
   @ApiOperation({
     operationId: 'getClientProfileById',
     description: 'get client profile by id',

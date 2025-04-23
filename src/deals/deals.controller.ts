@@ -6,10 +6,18 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DealsService } from './deals.service';
 import { CreateDealsReqDto } from './dtos/create-deals.req.dto';
+import { FilterDealsReqDto } from './dtos/filter-deals-req.sto';
 import { UpdateDealsReqDto } from './dtos/update-deal-req.dto';
 
 @Controller('deals')
@@ -22,8 +30,8 @@ export class DealsController {
     description: 'fetch deals list',
     operationId: 'fetchDealsList',
   })
-  async getAllDeals() {
-    return await this.dealsService.getAllDeals();
+  async getAllDeals(@Query() filterDealsReqDto: FilterDealsReqDto) {
+    return await this.dealsService.getAllDeals(filterDealsReqDto);
   }
 
   @Post('create')

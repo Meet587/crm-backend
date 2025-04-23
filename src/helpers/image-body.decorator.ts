@@ -1,5 +1,5 @@
-import { applyDecorators } from '@nestjs/common';
-import { ApiBody } from '@nestjs/swagger';
+import { applyDecorators } from '@nestjs/common/decorators/core/apply-decorators';
+import { ApiBody } from '@nestjs/swagger/dist/decorators/api-body.decorator';
 
 export function ApiFile() {
   return applyDecorators(
