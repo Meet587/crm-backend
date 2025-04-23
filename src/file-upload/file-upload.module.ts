@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { MulterModule } from '@nestjs/platform-express';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
+import { MulterModule } from '@nestjs/platform-express/multer/multer.module';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { PropertyImageEntity } from '../db/entities/property-image.entity';
 import { PropertyImageRepository } from '../db/repositories/property-image.repository';
 import { multerConfig } from '../helpers/multer';

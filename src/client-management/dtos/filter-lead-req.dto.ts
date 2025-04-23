@@ -23,7 +23,7 @@ export class FilterLeadReqDto {
   })
   @IsEnum(InterestTypeEnum)
   @IsOptional()
-  interestType: InterestTypeEnum;
+  interestType?: InterestTypeEnum;
 
   @ApiProperty({
     name: 'agentAssign',
@@ -35,5 +35,5 @@ export class FilterLeadReqDto {
   @Type(() => Number)
   @IsNumber()
   @IsOptional()
-  agentAssign: number;
+  agentAssign?: number;
 }

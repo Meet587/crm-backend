@@ -1,5 +1,10 @@
+import { FilterCommissionsReqDto } from '../../commissions/dtos/filter-commission-req.dto';
 import { CommissionEntity } from '../entities/commission.entity';
 import { BaseInterfaceRepository } from '../repositories/base/base.interface.repository';
 
 export interface CommissionRepositoryInterface
-  extends BaseInterfaceRepository<CommissionEntity> {}
+  extends BaseInterfaceRepository<CommissionEntity> {
+  getCommissionsListWithFilters(
+    filterCommissionsReqDto: FilterCommissionsReqDto,
+  );
+}

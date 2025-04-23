@@ -1,23 +1,23 @@
-import { Module } from '@nestjs/common/decorators/modules';
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core/constants';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { BuildersModule } from './builders/builders.module';
 import { ClientManagementModule } from './client-management/client-management.module';
+import { CommissionsModule } from './commissions/commissions.module';
 import environmentConfig from './config/environment.config';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
+import { DealsModule } from './deals/deals.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { FollowUpsModule } from './follow-ups/follow-ups.module';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { PropertyManagementModule } from './property-management/property-management.module';
 import { SiteVisitsModule } from './site-visits/site-visits.module';
 import { UserModule } from './users/users.module';
-import { DealsModule } from './deals/deals.module';
-import { BuildersModule } from './builders/builders.module';
-import { CommissionsModule } from './commissions/commissions.module';
 
 @Module({
   imports: [

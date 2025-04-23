@@ -7,6 +7,7 @@ import {
   IsOptional,
 } from 'class-validator';
 import { commissionPaymentStatusEnum } from '../../db/entities/commission.entity';
+import { Type } from 'class-transformer';
 
 export class CreateCommissionReqDto {
   @ApiProperty({
@@ -47,6 +48,7 @@ export class CreateCommissionReqDto {
     name: 'builder_id',
   })
   @IsNumber()
+  @Type(()=>Number)
   @IsNotEmpty()
   builder_id: number;
 

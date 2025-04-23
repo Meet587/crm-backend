@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { FollowUpsService } from './follow-ups.service';
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
+import { FollowUpEntity } from '../db/entities/follow-up.entity';
+import { FollowUpRepository } from '../db/repositories/follow-up.repository';
 import { FollowUpsController } from './follow-ups.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { FollowUpEntity } from 'src/db/entities/follow-up.entity';
-import { FollowUpRepository } from 'src/db/repositories/follow-up.repository';
+import { FollowUpsService } from './follow-ups.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FollowUpEntity])],

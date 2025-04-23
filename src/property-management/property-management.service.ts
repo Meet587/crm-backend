@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
+import { REQUEST } from '@nestjs/core/router/request/request-constants';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/strategy/jwt-payload.interface';
 import { PropertyEntity } from 'src/db/entities/property.entity';
@@ -36,7 +36,16 @@ export class PropertyManagementService {
       const whereClaus: FindManyOptions<PropertyEntity> = {};
       if (payload.role === UserRole.ADMIN) {
         whereClaus.relations = { agent: true, images: true };
-        whereClaus.select = ['agent', 'area'];
+        whereClaus.select = {
+          area: true,
+          agent: {
+            id: true,
+            email: true,
+            phoneNumber: true,
+            role: true,
+            createdAt: true,
+          },
+        };
       } else if (payload.role === UserRole.RM) {
         whereClaus.where = {
           assignTo: payload.id,

@@ -1,4 +1,4 @@
-import { ValidationError } from 'class-validator';
+import { ValidationError } from 'class-validator/types/validation/ValidationError';
 
 export function validationErrorsToArray(error: ValidationError[]): string[] {
   const errorsString: string[] = [];

@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { ClientManagementModule } from '../client-management/client-management.module';
 import { DealsEntity } from '../db/entities/deals.entity';
 import { DealsRepository } from '../db/repositories/deals.repository';

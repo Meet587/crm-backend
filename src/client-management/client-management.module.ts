@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientsEntity } from 'src/db/entities/client.entity';
-import { ClientRepository } from 'src/db/repositories/client.repository';
-import { UserModule } from 'src/users/users.module';
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
+import { ClientsEntity } from '../db/entities/client.entity';
+import { ClientRepository } from '../db/repositories/client.repository';
 import { PropertyManagementModule } from '../property-management/property-management.module';
+import { UserModule } from '../users/users.module';
 import { ClientManagementController } from './client-management.controller';
 import { ClientManagementService } from './client-management.service';
 

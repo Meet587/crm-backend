@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { SiteVisitsService } from './site-visits.service';
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
+import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
+import { SiteVisitEntity } from '../db/entities/site-visit.entity';
+import { SiteVisitRepository } from '../db/repositories/site-visit.repository';
 import { SiteVisitsController } from './site-visits.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { SiteVisitEntity } from 'src/db/entities/site-visit.entity';
-import { SiteVisitRepository } from 'src/db/repositories/site-visit.repository';
+import { SiteVisitsService } from './site-visits.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([SiteVisitEntity])],
