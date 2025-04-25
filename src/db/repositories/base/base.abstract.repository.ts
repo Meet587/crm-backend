@@ -5,6 +5,10 @@ import {
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
+import {
+  PaginatedResult,
+  PaginationParams,
+} from '../../../helpers/pagination/pagination.interface';
 import { BaseInterfaceRepository } from './base.interface.repository';
 
 interface HasId {
@@ -56,5 +60,30 @@ export abstract class BaseAbstractRepository<T extends HasId>
 
   public async remove(data: T): Promise<T> {
     return await this.entity.remove(data);
+  }
+
+  public async findWithFiltersAndPaginate(
+    paginationParams: PaginationParams,
+    options: FindManyOptions<T> = {},
+  ): Promise<PaginatedResult<T>> {
+    const { page, limit } = paginationParams;
+    const skip = (page - 1) * limit;
+
+    const finalOptions: FindManyOptions<T> = {
+      ...options,
+      take: limit,
+      skip: skip,
+    };
+
+    const [data, total] = await this.entity.findAndCount(finalOptions);
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      },
+    };
   }
 }

@@ -1,12 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 import {
   InterestTypeEnum,
   LeadStatusEnum,
 } from '../../db/entities/client.entity';
-import { IsEnum, IsNumber, IsOptional } from 'class-validator';
-import { Type } from 'class-transformer';
+import { PaginationReqDto } from '../../helpers/pagination/pagination.dto';
 
-export class FilterLeadReqDto {
+export class FilterLeadReqDto extends PaginationReqDto {
   @ApiProperty({
     name: 'status',
     enum: LeadStatusEnum,

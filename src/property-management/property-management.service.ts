@@ -1,66 +1,37 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { REQUEST } from '@nestjs/core/router/request/request-constants';
-import { Request } from 'express';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtPayload } from 'src/auth/strategy/jwt-payload.interface';
-import { PropertyEntity } from 'src/db/entities/property.entity';
-import { UserRole } from 'src/db/entities/user.entity';
-import { PropertyRepository } from 'src/db/repositories/property.repository';
 import { AddPropertyReqDto } from 'src/property-management/dtos/add-property-req.dto';
 import { AssignPropertyTo } from 'src/property-management/dtos/assign-property-req.dto';
 import { UserService } from 'src/users/users.service';
-import { FindManyOptions, In } from 'typeorm';
+import { In } from 'typeorm';
+import { PropertyRepositoryInterface } from '../db/interfaces/property.interface';
+import { FilterPropertyReqDto } from './dtos/filter-property-req.dto';
 import { UpdatePropertyReqDto } from './dtos/update-property-req.dto';
 
 @Injectable()
 export class PropertyManagementService {
   constructor(
-    @Inject(REQUEST) private request: Request,
     @Inject('propertyRepositoryInterface')
-    private readonly propertyRepository: PropertyRepository,
+    private readonly propertyRepository: PropertyRepositoryInterface,
     private readonly userService: UserService,
   ) {}
 
-  async getAllProperties(): Promise<any> {
+  async getAllProperties(
+    user: JwtPayload,
+    filterPropertyReqDto: FilterPropertyReqDto,
+  ): Promise<any> {
     try {
-      const payload = this.request.user as JwtPayload;
-
-      if (!payload) {
-        throw new BadRequestException('provide payload getAllProperties.');
-      }
-
-      const whereClaus: FindManyOptions<PropertyEntity> = {};
-      if (payload.role === UserRole.ADMIN) {
-        whereClaus.relations = { agent: true, images: true };
-        whereClaus.select = {
-          area: true,
-          agent: {
-            id: true,
-            email: true,
-            phoneNumber: true,
-            role: true,
-            createdAt: true,
-          },
-        };
-      } else if (payload.role === UserRole.RM) {
-        whereClaus.where = {
-          assignTo: payload.id,
-        };
-        whereClaus.relations = { agent: false, images: true };
-      }
-
-      const list = await this.propertyRepository.findWithRelations(whereClaus);
-      list.forEach((obj) => {
-        if (obj?.agent) {
-          delete obj.agent.password;
-        }
-        if (obj?.images.length !== 0)
-          obj.thumbnail_url = obj.images[0].secure_url;
-      });
+      const list = await this.propertyRepository.getClientListWithFilters(
+        user,
+        filterPropertyReqDto,
+      );
+      // list.forEach((obj) => {
+      //   if (obj?.agent) {
+      //     delete obj.agent.password;
+      //   }
+      //   if (obj?.images.length !== 0)
+      //     obj.thumbnail_url = obj.images[0].secure_url;
+      // });
       return list;
     } catch (error) {
       console.log(error);

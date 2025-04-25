@@ -27,7 +27,7 @@ export class ClientManagementService {
 
   async getClientList(filterLeadReqDto: FilterLeadReqDto) {
     try {
-      return await this.clientRepository.getClientsWithFilters(
+      return await this.clientRepository.getClientListWithFilters(
         filterLeadReqDto,
       );
     } catch (error) {

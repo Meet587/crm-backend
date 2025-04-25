@@ -16,7 +16,7 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
-  ApiQuery,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -29,6 +29,7 @@ import { AddPropertyInterestReqDto } from './dtos/add-property-interest.det';
 import { AssignClientToAgentReqDto } from './dtos/assign-client-to-agent-req.dto';
 import { CreateClientRequestDto } from './dtos/create-client-req.dto';
 import { FilterLeadReqDto } from './dtos/filter-lead-req.dto';
+import { ClientPaginationResponseDto } from './dtos/get-client-list-res.dto';
 import { UpdateClientRequestDto } from './dtos/update-client-details-req.dto';
 import { UpdateLeadStatusReqDto } from './dtos/update-lead-status-req.dto';
 
@@ -47,6 +48,7 @@ export class ClientManagementController {
     operationId: 'getClientList',
     description: 'client list',
   })
+  @ApiResponse({ type: ClientPaginationResponseDto })
   async getClientList(
     @Query() filterLeadReqDto: FilterLeadReqDto,
     @Req() request: Request,
@@ -54,11 +56,7 @@ export class ClientManagementController {
     if (request.user && request.user.role !== UserRole.ADMIN) {
       filterLeadReqDto.agentAssign = request.user.id;
     }
-    const client =
-      await this.clientManagementService.getClientList(filterLeadReqDto);
-    return {
-      list: client,
-    };
+    return await this.clientManagementService.getClientList(filterLeadReqDto);
   }
 
   @Get('/:clientId/profile')

@@ -7,6 +7,9 @@ import {
   Patch,
   Post,
   Put,
+  Query,
+  Req,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -15,12 +18,15 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { GetPropertyResDto } from './dtos/get-property-res.dto';
-import { PropertyManagementService } from './property-management.service';
+import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
+import { UserRole } from '../db/entities/user.entity';
 import { AddPropertyReqDto } from './dtos/add-property-req.dto';
 import { AssignPropertyTo } from './dtos/assign-property-req.dto';
+import { FilterPropertyReqDto } from './dtos/filter-property-req.dto';
+import { GetPropertyResDto } from './dtos/get-property-res.dto';
 import { UpdatePropertyReqDto } from './dtos/update-property-req.dto';
+import { PropertyManagementService } from './property-management.service';
 
 @Controller('property-management')
 @ApiTags('Property Management')
@@ -34,8 +40,19 @@ export class PropertyManagementController {
   @Get('list')
   @ApiOperation({ description: 'get property' })
   @ApiResponse({ type: GetPropertyResDto })
-  async getProperty(): Promise<GetPropertyResDto[]> {
-    return await this.propertyManagementService.getAllProperties();
+  async getProperty(
+    @Query() filterPropertyReqDto: FilterPropertyReqDto,
+    @Req() req: Request,
+  ): Promise<GetPropertyResDto[]> {
+    const user = req?.user;
+    user.role = UserRole.RM;
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    return await this.propertyManagementService.getAllProperties(
+      user,
+      filterPropertyReqDto,
+    );
   }
 
   @Get(':id')
