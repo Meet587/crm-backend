@@ -39,6 +39,12 @@ export class UserEntity {
   @Column('text', { nullable: true })
   password: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true }) // Added for MFA
+  mfaSecret: string;                                       // Added for MFA
+
+  @Column({ type: 'boolean', default: false }) // Added for MFA status
+  isMfaEnabled: boolean;                       // Added for MFA status
+
   @OneToMany(() => ClientsEntity, (client) => client.assignedAgent)
   clients: ClientsEntity[];
 

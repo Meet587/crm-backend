@@ -5,6 +5,7 @@ import {
   MinLength,
   IsEmail,
   IsEnum,
+  IsOptional, // Import IsOptional
 } from 'class-validator';
 import { UserRole } from '../../db/entities/user.entity';
 
@@ -47,13 +48,33 @@ export class CreateUserDto {
   role: UserRole;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional() // Make password optional
   @MinLength(6)
   @ApiProperty({
     name: 'password',
     minLength: 6,
-    required: true,
+    required: false, // Set required to false
     type: String,
+    nullable: true, // Indicate that it can be null
   })
-  password: string;
+  password?: string; // Make password property optional
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    name: 'mfaSecret',
+    required: false,
+    type: String,
+    nullable: true,
+  })
+  mfaSecret?: string;
+
+  @IsOptional()
+  @ApiProperty({
+    name: 'isMfaEnabled',
+    required: false,
+    type: Boolean,
+    default: false,
+  })
+  isMfaEnabled?: boolean;
 }
