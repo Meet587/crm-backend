@@ -27,7 +27,10 @@ export class UserService {
       if (isExist) {
         throw new ConflictException('user already exist with this email.');
       }
-      const hashPassword = await bcrypt.hash(createUserDto.password, 12);
+      let hashPassword = null;
+      if (createUserDto.password) {
+        hashPassword = await bcrypt.hash(createUserDto.password, 12);
+      }
       const newUser = await this.userRepository.save({
         fname: createUserDto.fname,
         lname: createUserDto.lname,
@@ -81,6 +84,49 @@ export class UserService {
         ],
       });
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateUser(
+    id: number,
+    updateUserDto: Partial<CreateUserDto>,
+  ): Promise<UserEntity> {
+    try {
+      const user = await this.userRepository.findOneById(id);
+      if (!user) {
+        throw new NotFoundException('User not found with this id.');
+      }
+
+      // Merge the changes from updateUserDto into the user entity
+      // Object.assign(user, updateUserDto);
+
+      // More controlled update:
+      if (updateUserDto.fname !== undefined) user.fname = updateUserDto.fname;
+      if (updateUserDto.lname !== undefined) user.lname = updateUserDto.lname;
+      // Email updates should be handled carefully, possibly disallowed or require verification
+      // For now, we'll allow it but be mindful of unique constraints
+      if (updateUserDto.email !== undefined) user.email = updateUserDto.email;
+      if (updateUserDto.role !== undefined) user.role = updateUserDto.role;
+      if (updateUserDto.mfaSecret !== undefined) user.mfaSecret = updateUserDto.mfaSecret;
+      if (updateUserDto.isMfaEnabled !== undefined) user.isMfaEnabled = updateUserDto.isMfaEnabled; // Handle isMfaEnabled
+      // Password updates should ideally have their own flow and hash the password
+      // If updateUserDto includes a password, it should be hashed.
+      // However, for MFA setup, we are primarily concerned with mfaSecret.
+      // This example will not handle password changes to keep it focused.
+      // if (updateUserDto.password) {
+      //   user.password = await bcrypt.hash(updateUserDto.password, 12);
+      // }
+
+
+      const updatedUser = await this.userRepository.save(user);
+      delete updatedUser.password; // Ensure password is not returned
+      return updatedUser;
+    } catch (error) {
+      // Handle potential unique constraint errors if email is changed to an existing one
+      if (error.code === 'ER_DUP_ENTRY' || error.message.includes('unique constraint')) {
+        throw new ConflictException('Email already exists.');
+      }
       throw error;
     }
   }
