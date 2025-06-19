@@ -1,7 +1,3 @@
-import { FollowUpEntity } from 'src/db/entities/follow-up.entity';
-import { PropertyEntity } from 'src/db/entities/property.entity';
-import { SiteVisitEntity } from 'src/db/entities/site-visit.entity';
-import { UserEntity } from 'src/db/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -15,6 +11,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DealsEntity } from './deals.entity';
+import { PropertyEntity } from './property.entity';
+import { UserEntity } from './user.entity';
+import { FollowUpEntity } from './follow-up.entity';
+import { SiteVisitEntity } from './site-visit.entity';
 
 export enum InterestTypeEnum {
   RESIDENTIAL = 'residential',

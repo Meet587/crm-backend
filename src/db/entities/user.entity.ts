@@ -1,5 +1,4 @@
 import { Exclude } from 'class-transformer';
-import { ClientsEntity } from 'src/db/entities/client.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ClientsEntity } from './client.entity';
 import { DealsEntity } from './deals.entity';
 
 export enum UserRole {
@@ -38,6 +38,12 @@ export class UserEntity {
   @Exclude()
   @Column('text', { nullable: true })
   password: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true }) // Added for MFA
+  mfaSecret: string; // Added for MFA
+
+  @Column({ type: 'boolean', default: false }) // Added for MFA status
+  isMfaEnabled: boolean; // Added for MFA status
 
   @OneToMany(() => ClientsEntity, (client) => client.assignedAgent)
   clients: ClientsEntity[];

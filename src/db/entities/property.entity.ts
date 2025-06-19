@@ -1,7 +1,3 @@
-import { AreaEntity } from 'src/db/entities/area.entity';
-import { ClientsEntity } from 'src/db/entities/client.entity';
-import { LocationEntity } from 'src/db/entities/location.entity';
-import { UserEntity } from 'src/db/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -13,8 +9,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { PropertyImageEntity } from './property-image.entity';
+import { AreaEntity } from './area.entity';
+import { ClientsEntity } from './client.entity';
 import { DealsEntity } from './deals.entity';
+import { LocationEntity } from './location.entity';
+import { PropertyImageEntity } from './property-image.entity';
+import { UserEntity } from './user.entity';
 
 export enum PropertyForEnum {
   rent = 'rent',

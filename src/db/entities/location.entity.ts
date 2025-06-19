@@ -1,5 +1,5 @@
-import { AreaEntity } from 'src/db/entities/area.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { AreaEntity } from './area.entity';
 
 @Entity('locations')
 export class LocationEntity {
